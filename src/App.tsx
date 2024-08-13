@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense, useState } from "react";
 import { BoxModel } from "./components/BoxModel/BoxModel";
 import { BoxControls } from "./components/BoxControl/BoxControl";
+import { DragControls } from "@react-three/drei";
 
 function App() {
   const [dimensions, setDimensions] = useState({
@@ -21,7 +22,7 @@ function App() {
   return (
     <>
       <BoxControls onDimensionsChange={handleDimensionsChange} />
-      <div style={{ margin: "20px" }}>
+      <div style={{ height: "90vh" }}>
         <Canvas>
           <ambientLight intensity={Math.PI / 2} />
           <spotLight
@@ -37,12 +38,15 @@ function App() {
             intensity={Math.PI}
           />
           <Suspense fallback={null}>
-            <BoxModel
-              width={dimensions.width}
-              height={dimensions.height}
-              depth={dimensions.depth}
-            />
+            <DragControls>
+              <BoxModel
+                width={dimensions.width}
+                height={dimensions.height}
+                depth={dimensions.depth}
+              />
+            </DragControls>
           </Suspense>
+          <gridHelper args={[10, 10]} position={[0, -1, 0]} />
         </Canvas>
       </div>
     </>
